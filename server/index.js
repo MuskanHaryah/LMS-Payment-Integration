@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 // Load environment variables
 dotenv.config();
 
+// Import routes
+const paymentRoutes = require('./routes/paymentRoutes');
+
 const app = express();
 
 // Middleware
@@ -33,6 +36,9 @@ app.get('/', (req, res) => {
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
+
+// API Routes
+app.use('/api/payments', paymentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
