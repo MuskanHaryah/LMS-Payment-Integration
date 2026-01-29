@@ -36,8 +36,8 @@ const CourseDetail = () => {
         if (course.isPremium && !hasPurchasedCourse(course._id)) {
             navigate(`/checkout/${course._id}`);
         } else {
-            // Free course or already purchased - direct access
-            alert('You have access to this course!');
+            // Free course or already purchased - go to course content
+            navigate(`/courses/${course._id}/learn`);
         }
     };
 

@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
+import CourseContent from './pages/CourseContent';
 import Checkout from './pages/Checkout';
 import PaymentSuccess from './pages/PaymentSuccess';
 import PaymentFailed from './pages/PaymentFailed';
@@ -24,6 +25,7 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/courses" element={<Courses />} />
                             <Route path="/courses/:id" element={<CourseDetail />} />
+                            <Route path="/courses/:id/learn" element={<CourseContent />} />
                             <Route path="/checkout/:courseId" element={<Checkout />} />
                             <Route path="/payment/success" element={<PaymentSuccess />} />
                             <Route path="/payment/failed" element={<PaymentFailed />} />
