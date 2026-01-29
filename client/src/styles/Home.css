@@ -1,0 +1,106 @@
+/* Placeholder - will be styled in Step 8 */
+.home {
+    padding: 2rem;
+}
+
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #E8EDE4;
+}
+
+.hero h1 {
+    color: #3D4A38;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    color: #6B7A5E;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #8B9A7D;
+    color: white;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #8B9A7D;
+    border: 2px solid #8B9A7D;
+}
+
+.features {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.features h2 {
+    color: #3D4A38;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: 2rem;
+    background: #F5F7F3;
+    border-radius: 8px;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    color: #8B9A7D;
+}
+
+.feature-card h3 {
+    color: #3D4A38;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    color: #6B7A5E;
+}
+
+.cta {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #8B9A7D;
+    color: white;
+}
+
+.cta h2 {
+    margin-bottom: 0.5rem;
+}
+
+.cta p {
+    margin-bottom: 1.5rem;
+}
+
+.cta .btn-primary {
+    background: white;
+    color: #8B9A7D;
+}

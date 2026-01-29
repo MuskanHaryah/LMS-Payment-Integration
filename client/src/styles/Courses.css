@@ -1,0 +1,52 @@
+/* Placeholder - will be styled in Step 8 */
+.courses-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.courses-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.courses-header h1 {
+    color: #3D4A38;
+}
+
+.courses-header p {
+    color: #6B7A5E;
+}
+
+.filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.filter-tab {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid #8B9A7D;
+    background: transparent;
+    color: #8B9A7D;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter-tab.active {
+    background: #8B9A7D;
+    color: white;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.loading, .no-courses {
+    text-align: center;
+    padding: 2rem;
+    color: #6B7A5E;
+}
