@@ -1,0 +1,214 @@
+.payment-result-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--bg-light, #E8EDE4);
+}
+
+.payment-result-card {
+    text-align: center;
+    background: #FFFFFF;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(59, 74, 56, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.result-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.result-icon.success {
+    background: rgba(139, 154, 125, 0.15);
+    color: var(--primary, #8B9A7D);
+}
+
+.result-icon.failed {
+    background: rgba(198, 40, 40, 0.1);
+    color: #C62828;
+}
+
+.payment-result-card h1 {
+    font-size: 1.75rem;
+    color: var(--primary-dark, #3D4A38);
+    margin-bottom: 0.75rem;
+}
+
+.payment-result-card.failed h1 {
+    color: #C62828;
+}
+
+.result-message {
+    color: var(--text-secondary, #5C6B55);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.purchase-details {
+    background: var(--bg-light, #E8EDE4);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.detail-item .label {
+    color: var(--text-secondary, #5C6B55);
+    font-size: 0.9rem;
+}
+
+.detail-item .value {
+    color: var(--primary-dark, #3D4A38);
+    font-weight: 600;
+}
+
+.error-details {
+    background: #FFEBEE;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.error-label {
+    display: block;
+    font-size: 0.8rem;
+    color: #C62828;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.error-message {
+    color: #B71C1C;
+    font-size: 0.9rem;
+}
+
+.common-issues {
+    text-align: left;
+    background: var(--bg-light, #E8EDE4);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.common-issues h3 {
+    font-size: 0.9rem;
+    color: var(--primary-dark, #3D4A38);
+    margin-bottom: 0.75rem;
+}
+
+.common-issues ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.common-issues li {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #5C6B55);
+    padding: 0.35rem 0;
+    padding-left: 1.25rem;
+    position: relative;
+}
+
+.common-issues li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--text-secondary, #5C6B55);
+    border-radius: 50%;
+}
+
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-actions .btn {
+    padding: 0.875rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.result-actions .btn-primary {
+    background: var(--primary, #8B9A7D);
+    color: #FFFFFF;
+    border: none;
+}
+
+.result-actions .btn-primary:hover {
+    background: var(--primary-dark, #6B7A5E);
+    transform: translateY(-2px);
+}
+
+.payment-result-card.failed .result-actions .btn-primary {
+    background: #C62828;
+}
+
+.payment-result-card.failed .result-actions .btn-primary:hover {
+    background: #B71C1C;
+}
+
+.result-actions .btn-secondary {
+    background: transparent;
+    color: var(--primary-dark, #3D4A38);
+    border: 1px solid var(--border-color, #D4DDD0);
+}
+
+.result-actions .btn-secondary:hover {
+    border-color: var(--primary, #8B9A7D);
+    background: var(--bg-light, #E8EDE4);
+}
+
+.confirmation-note,
+.support-note {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #5C6B55);
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    .payment-result-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .payment-result-card h1 {
+        font-size: 1.5rem;
+    }
+
+    .result-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .result-icon svg {
+        width: 48px;
+        height: 48px;
+    }
+}
