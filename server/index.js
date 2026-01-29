@@ -8,6 +8,8 @@ dotenv.config();
 
 // Import routes
 const paymentRoutes = require('./routes/paymentRoutes');
+const authRoutes = require('./routes/authRoutes');
+const courseRoutes = require('./routes/courseRoutes');
 
 const app = express();
 
@@ -39,6 +41,8 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/payments', paymentRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
