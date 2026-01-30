@@ -1,4 +1,6 @@
 const stripe = require('../config/stripe');
+const User = require('../models/User');
+const Payment = require('../models/Payment');
 
 // Create a payment intent for course purchase
 const createPaymentIntent = async (req, res) => {
@@ -19,7 +21,7 @@ const createPaymentIntent = async (req, res) => {
             metadata: {
                 courseId,
                 courseName: courseName || '',
-                userId: req.user ? req.user.id : 'guest',
+                userId: req.user ? req.user._id.toString() : 'guest',
             },
             automatic_payment_methods: {
                 enabled: true,
@@ -57,13 +59,42 @@ const confirmPayment = async (req, res) => {
         const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
         if (paymentIntent.status === 'succeeded') {
-            // Payment successful - grant course access
-            // This will be handled by the user/course models later
+            const { courseId } = paymentIntent.metadata;
+            // Use authenticated user's ID instead of metadata (more secure)
+            const userId = req.user._id;
+            
+            // Save payment record to database
+            const payment = await Payment.create({
+                user: userId,
+                course: courseId,
+                amount: paymentIntent.amount / 100,
+                stripePaymentIntentId: paymentIntentId,
+                status: 'succeeded',
+            });
+
+            // Add course to user's purchased courses
+            await User.findByIdAndUpdate(
+                userId,
+                {
+                    $addToSet: {
+                        purchasedCourses: {
+                            course: courseId,
+                            purchasedAt: new Date(),
+                            paymentId: payment._id.toString(),
+                        }
+                    }
+                }
+            );
+
+            // Get updated user to return
+            const updatedUser = await User.findById(userId).select('-password');
+
             res.status(200).json({
                 success: true,
                 message: 'Payment confirmed successfully',
-                courseId: paymentIntent.metadata.courseId,
+                courseId: courseId,
                 status: paymentIntent.status,
+                user: updatedUser,
             });
         } else {
             res.status(400).json({

@@ -30,13 +30,11 @@
     gap: 0.5rem;
 }
 
-.navbar-logo::before {
-    content: '';
-    width: 32px;
-    height: 32px;
+.navbar-logo svg {
     background: white;
+    color: var(--color-primary);
+    padding: 4px;
     border-radius: var(--radius-sm);
-    opacity: 0.9;
 }
 
 .navbar-links {
@@ -52,11 +50,33 @@
     border-radius: var(--radius-sm);
     font-weight: 500;
     transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+    border-radius: 2px;
 }
 
 .nav-link:hover {
     background: rgba(255, 255, 255, 0.15);
     color: white;
+}
+
+.nav-link.active {
+    color: white;
+}
+
+.nav-link.active::after {
+    width: 60%;
 }
 
 .nav-btn {

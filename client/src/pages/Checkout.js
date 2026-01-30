@@ -54,6 +54,7 @@ const CheckoutForm = ({ course, clientSecret, onSuccess }) => {
                 color: '#C62828',
             },
         },
+        hidePostalCode: true,
     };
 
     return (
@@ -88,7 +89,7 @@ const CheckoutForm = ({ course, clientSecret, onSuccess }) => {
 const Checkout = () => {
     const { courseId } = useParams();
     const navigate = useNavigate();
-    const { user, isAuthenticated, updateUser } = useAuth();
+    const { user, isAuthenticated, updateUser, loading: authLoading } = useAuth();
     
     const [course, setCourse] = useState(null);
     const [clientSecret, setClientSecret] = useState('');
@@ -96,13 +97,16 @@ const Checkout = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Wait for auth to finish loading before checking
+        if (authLoading) return;
+        
         if (!isAuthenticated) {
             navigate('/login', { state: { from: `/checkout/${courseId}` } });
             return;
         }
         
         fetchCourseAndCreateIntent();
-    }, [courseId, isAuthenticated]);
+    }, [courseId, isAuthenticated, authLoading]);
 
     const fetchCourseAndCreateIntent = async () => {
         try {
@@ -131,20 +135,25 @@ const Checkout = () => {
 
     const handlePaymentSuccess = async (paymentIntent) => {
         try {
-            // Confirm payment on backend
-            await paymentAPI.confirmPayment({
+            // Confirm payment on backend - this saves to database
+            const response = await paymentAPI.confirmPayment({
                 paymentIntentId: paymentIntent.id,
             });
 
-            // Update user's purchased courses locally
-            const updatedUser = {
-                ...user,
-                purchasedCourses: [
-                    ...(user.purchasedCourses || []),
-                    { course: courseId, purchasedAt: new Date().toISOString() }
-                ]
-            };
-            updateUser(updatedUser);
+            // Update user with the server response (includes purchasedCourses from DB)
+            if (response.data.user) {
+                updateUser(response.data.user);
+            } else {
+                // Fallback: Update locally if server doesn't return user
+                const updatedUser = {
+                    ...user,
+                    purchasedCourses: [
+                        ...(user.purchasedCourses || []),
+                        { course: courseId, purchasedAt: new Date().toISOString() }
+                    ]
+                };
+                updateUser(updatedUser);
+            }
 
             // Navigate to success page
             navigate('/payment/success', { 

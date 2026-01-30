@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Home.css';
 
 const Home = () => {
+    const { isAuthenticated } = useAuth();
+
     return (
         <div className="home">
             <section className="hero">
@@ -16,9 +19,15 @@ const Home = () => {
                         <Link to="/courses" className="btn btn-primary">
                             Browse Courses
                         </Link>
-                        <Link to="/register" className="btn btn-secondary">
-                            Get Started
-                        </Link>
+                        {isAuthenticated ? (
+                            <Link to="/profile" className="btn btn-secondary">
+                                My Courses
+                            </Link>
+                        ) : (
+                            <Link to="/register" className="btn btn-secondary">
+                                Get Started
+                            </Link>
+                        )}
                     </div>
                 </div>
             </section>

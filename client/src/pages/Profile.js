@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
+import { courseAPI } from '../services/api';
 import '../styles/Profile.css';
 
 const Profile = () => {
     const { user, isAuthenticated, loading } = useAuth();
+    const [purchasedCourses, setPurchasedCourses] = useState([]);
+    const [loadingCourses, setLoadingCourses] = useState(true);
+
+    useEffect(() => {
+        if (user?.purchasedCourses?.length > 0) {
+            fetchPurchasedCourses();
+        } else {
+            setLoadingCourses(false);
+        }
+    }, [user]);
+
+    const fetchPurchasedCourses = async () => {
+        try {
+            const coursePromises = user.purchasedCourses.map(async (purchase) => {
+                const courseId = purchase.course?._id || purchase.course;
+                try {
+                    const response = await courseAPI.getById(courseId);
+                    return {
+                        ...response.data.course,
+                        purchasedAt: purchase.purchasedAt
+                    };
+                } catch {
+                    return null;
+                }
+            });
+            
+            const courses = await Promise.all(coursePromises);
+            setPurchasedCourses(courses.filter(c => c !== null));
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+        } finally {
+            setLoadingCourses(false);
+        }
+    };
 
     if (loading) {
         return <div className="loading">Loading...</div>;
@@ -27,17 +62,37 @@ const Profile = () => {
 
                 <div className="profile-section">
                     <h2>My Purchased Courses</h2>
-                    {user.purchasedCourses?.length > 0 ? (
+                    {loadingCourses ? (
+                        <p className="loading-text">Loading your courses...</p>
+                    ) : purchasedCourses.length > 0 ? (
                         <div className="purchased-courses">
-                            {user.purchasedCourses.map((purchase, index) => (
-                                <div key={index} className="purchased-course-item">
-                                    <span>Course ID: {purchase.course?._id || purchase.course}</span>
-                                    <span>Purchased: {new Date(purchase.purchasedAt).toLocaleDateString()}</span>
+                            {purchasedCourses.map((course) => (
+                                <div key={course._id} className="purchased-course-card">
+                                    <img 
+                                        src={course.image || '/images/course-thumbnail.png'} 
+                                        alt={course.title}
+                                        onError={(e) => {
+                                            e.target.src = 'https://via.placeholder.com/120x80?text=Course';
+                                        }}
+                                    />
+                                    <div className="course-details">
+                                        <h3>{course.title}</h3>
+                                        <p className="instructor">By {course.instructor}</p>
+                                        <p className="purchase-date">
+                                            Purchased: {new Date(course.purchasedAt).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    <Link to={`/courses/${course._id}/learn`} className="access-btn">
+                                        Continue Learning
+                                    </Link>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="no-courses">You have not purchased any courses yet.</p>
+                        <div className="no-courses">
+                            <p>You have not purchased any courses yet.</p>
+                            <Link to="/courses" className="browse-btn">Browse Courses</Link>
+                        </div>
                     )}
                 </div>
             </div>

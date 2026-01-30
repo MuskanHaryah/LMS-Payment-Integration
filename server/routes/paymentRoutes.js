@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { protect } = require('../middleware/auth');
 const {
     createPaymentIntent,
     confirmPayment,
@@ -10,13 +11,13 @@ const {
 // Get Stripe publishable key
 router.get('/config', getStripeConfig);
 
-// Create payment intent for course purchase
-router.post('/create-payment-intent', createPaymentIntent);
+// Create payment intent for course purchase (requires auth)
+router.post('/create-payment-intent', protect, createPaymentIntent);
 
-// Confirm payment after completion
-router.post('/confirm', confirmPayment);
+// Confirm payment after completion (requires auth)
+router.post('/confirm', protect, confirmPayment);
 
-// Get user payment history (requires auth - to be added)
-router.get('/history', getPaymentHistory);
+// Get user payment history (requires auth)
+router.get('/history', protect, getPaymentHistory);
 
 module.exports = router;

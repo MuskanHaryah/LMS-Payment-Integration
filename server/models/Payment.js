@@ -44,7 +44,6 @@ const paymentSchema = new mongoose.Schema({
 
 // Index for faster queries
 paymentSchema.index({ user: 1, createdAt: -1 });
-paymentSchema.index({ stripePaymentIntentId: 1 });
 
 const Payment = mongoose.model('Payment', paymentSchema);
 

@@ -4,7 +4,7 @@ const User = require('../models/User');
 // Check if user has access to premium course
 const checkCourseAccess = async (req, res, next) => {
     try {
-        const { courseId } = req.params;
+        const courseId = req.params.courseId || req.params.id;
 
         // Get the course
         const course = await Course.findById(courseId);
@@ -61,7 +61,7 @@ const checkCourseAccess = async (req, res, next) => {
 // Get course access status without blocking
 const getCourseAccessStatus = async (req, res, next) => {
     try {
-        const { courseId } = req.params;
+        const courseId = req.params.courseId || req.params.id;
 
         const course = await Course.findById(courseId);
 
